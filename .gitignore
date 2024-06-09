@@ -1,0 +1,4 @@
+arch_iso/build/iso_dir/*
+!arch_iso/build/iso_dir/.gitkeep
+arch_iso/build/working_dir/*
+!arch_iso/build/working_dir/.gitkeep
