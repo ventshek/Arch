@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Command to create the ISO in iso_dir using working_dir, taking config from releng.
-create_iso_command="mkarchiso -v -w /tmp -o ./iso_dir ./releng"
+create_iso_command="mkarchiso -v -w ./working_dir -o ./iso_dir ./releng"
 
 # Command to remove the files in working_dir.
 remove_working_dir_command='find ./working_dir/ -mindepth 1 ! -name '.gitkeep' -exec rm -rf {} +'
