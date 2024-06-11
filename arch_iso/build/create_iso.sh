@@ -7,7 +7,7 @@ create_iso_command="mkarchiso -v -w ./working_dir -o ./iso_dir ./releng"
 remove_working_dir_command='find ./working_dir/ -mindepth 1 ! -name '.gitkeep' -exec rm -rf {} +'
 
 # Command to open the ISO for testing.
-test_iso_command='qemu-system-x86_64 -display gtk -boot d -cdrom ./iso_dir/* -m 1024'
+test_iso_command='qemu-system-x86_64 -display gtk -boot d -cdrom ./iso_dir/archlinux* -m 1024'
 
 # Function to confirm action from the user
 confirm_action() {
