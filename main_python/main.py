@@ -1,6 +1,7 @@
+"""Module for interacting with the operating system."""
+import os
 import curses
 import subprocess
-import os
 import sys
 
 def boot_to_live_iso_no_gui():
@@ -14,6 +15,11 @@ def boot_to_live_iso_gui():
 
 def start_installation_script():
     """Execute the script for Start installation script."""
+    script_path = os.path.join('../main_bash/', 'archfi.sh')
+    subprocess.run(['sh', script_path], check=True)
+
+def start_gui_installation_script():
+    """Execute the script for Start GUI installation script ."""
     script_path = os.path.join('./scripts', 'aio_installation.py')
     subprocess.run(['python3', script_path], check=True)
 
@@ -43,7 +49,7 @@ def print_menu(stdscr, selected_row_idx, menu):
 
     stdscr.refresh()
 
-def execute_option(option):
+def execute_option(option, stdscr):
     """Execute the selected option."""
     if option == '1. Boot to live ISO (No GUI)':
         boot_to_live_iso_no_gui()
@@ -51,10 +57,14 @@ def execute_option(option):
         boot_to_live_iso_gui()
     elif option == '3. Start installation script':
         start_installation_script()
-    elif option == '4. Load disk utility':
+    elif option == '4. Start GUI installation script ':
+        start_gui_installation_script()
+    elif option == '5. Load disk utility':
         load_disk_util()
-    elif option == '5. Reboot':
+    elif option == '6. Reboot':
         reboot_system()
+    elif option == '7. Exit':
+        sys.exit(0)
 
 def main(stdscr):
     """Main function to handle the menu interaction."""
@@ -65,9 +75,10 @@ def main(stdscr):
         '1. Boot to live ISO (No GUI)',
         '2. Boot to live ISO (GUI)',
         '3. Start installation script',
-        '4. Load disk utility',
-        '5. Reboot',
-        '6. Exit'
+        '4. Start GUI installation script ',
+        '5. Load disk utility',
+        '6. Reboot',
+        '7. Exit'
     ]
     current_row = 0
 
@@ -81,19 +92,13 @@ def main(stdscr):
         elif key == curses.KEY_DOWN and current_row < len(menu) - 1:
             current_row += 1
         elif key in [curses.KEY_ENTER, 10, 13]:
-            if menu[current_row] == '6. Exit':
-                break
-            else:
-                execute_option(menu[current_row])
-                break  # Exit after executing the option
-        elif ord('1') <= key <= ord('6'):
+            execute_option(menu[current_row], stdscr)
+            break  # Exit after executing the option
+        elif ord('1') <= key <= ord('7'):
             index = key - ord('1')
             if index < len(menu):
-                if menu[index] == '6. Exit':
-                    break
-                else:
-                    execute_option(menu[index])
-                    break  # Exit after executing the option
+                execute_option(menu[index], stdscr)
+                break  # Exit after executing the option
 
         print_menu(stdscr, current_row, menu)
 
